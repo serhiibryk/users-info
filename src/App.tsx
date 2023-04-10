@@ -1,11 +1,12 @@
-import React from "react";
-import "./App.css";
-import Table from "./components/Table";
-import { HeaderContainer } from "./mainStyles";
+import React from 'react'
+import './App.css'
+
+import Table from './components/Table'
+import { HeaderContainer } from './style'
 
 function App() {
   return (
-    <div className="App">
+    <div className={'App'}>
       {/* <header className="App-header"></header> */}
       <main>
         <HeaderContainer>
@@ -13,7 +14,7 @@ function App() {
         </HeaderContainer>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
