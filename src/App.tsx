@@ -1,13 +1,16 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import Table from "./components/Table";
+import { HeaderContainer } from "./mainStyles";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header"></header>
+      {/* <header className="App-header"></header> */}
       <main>
-        <div>USERS INFO</div>
+        <HeaderContainer>
+          <Table />
+        </HeaderContainer>
       </main>
     </div>
   );
