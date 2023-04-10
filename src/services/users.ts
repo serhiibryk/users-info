@@ -11,11 +11,27 @@ class UsersService {
         console.log(error)
       })
   }
-  async getUserByID(id: number, setUser: (v: IAllUsers) => void): Promise<any> {
+  async getUserByID(id: string, setUser: (v: IAllUsers) => void): Promise<any> {
     await api
       .get(`users/${id}/`)
       .then((response) => {
         setUser(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+  async deleteUser(
+    id: string,
+    users: IAllUsers[],
+    setUsers: (v: IAllUsers[]) => void,
+  ): Promise<any> {
+    await api
+      .delete(`users/${id}/`)
+      .then((response) => {
+        console.log(response)
+        const newUsers = users.filter((user) => user.id !== id)
+        setUsers(newUsers)
       })
       .catch((error) => {
         console.log(error)

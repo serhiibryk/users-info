@@ -1,23 +1,24 @@
 import React, { FC, useEffect } from 'react'
+import Table from 'rc-table'
 import { usersService } from '../../services/users'
+import { TableWrapper } from './style'
 
 interface ITable {
   allUsers: IAllUsers[]
   setAllUsers: (v: IAllUsers[]) => void
+  columns: any
 }
 
-const Table: FC<ITable> = ({ allUsers, setAllUsers }) => {
+const TableComponent: FC<ITable> = ({ allUsers, setAllUsers, columns }) => {
   useEffect(() => {
     usersService.getUsers(setAllUsers)
   }, [])
 
   return (
-    <div>
-      {allUsers.map((user, i) => {
-        return <div key={i}>{user.name}</div>
-      })}
-    </div>
+    <TableWrapper>
+      <Table columns={columns} data={allUsers} />
+    </TableWrapper>
   )
 }
 
-export default Table
+export default TableComponent
