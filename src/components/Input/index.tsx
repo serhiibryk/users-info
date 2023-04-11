@@ -1,19 +1,17 @@
 import React, { FC } from 'react'
-import { useForm } from 'react-hook-form'
 
 interface IForm {
   type: string
-  name: 'name' | 'id' | 'age' | 'about'
+  name: string
   label: string
+  action: any
 }
 
-const Input: FC<IForm> = ({ type, name, label }) => {
-  const { register } = useForm<IFormData>()
-
+const Input: FC<IForm> = ({ type, name, label, action }) => {
   return (
     <>
       <label htmlFor={name}>{label}</label>
-      <input type={type} id={name} {...register(name)} />
+      <input type={type} id={name} {...action} />
       <br />
     </>
   )

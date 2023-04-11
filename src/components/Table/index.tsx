@@ -1,9 +1,8 @@
 import React, { FC } from 'react'
 import Table from 'rc-table'
-import { useForm } from 'react-hook-form'
+
 import { TableWrapper } from './style'
 
-import { UsersService } from '../../services/users'
 import Form from '../Form'
 
 interface ITable {
@@ -15,16 +14,15 @@ interface ITable {
 }
 
 const TableComponent: FC<ITable> = ({ allUsers, columns, setAllUsers, setLoading, loading }) => {
-  const { reset } = useForm<IFormData>()
-
-  const onSubmit = async (formData: IFormData) => {
-    UsersService.addUser(formData, allUsers, setAllUsers, setLoading, reset)
-  }
-
   return (
     <TableWrapper>
       <div className='App'>
-        <Form onSubmit={onSubmit} loading={loading} />
+        <Form
+          allUsers={allUsers}
+          setAllUsers={setAllUsers}
+          loading={loading}
+          setLoading={setLoading}
+        />
         <br />
         <Table columns={columns} data={allUsers} />
       </div>

@@ -1,5 +1,6 @@
 import { UseFormReset } from 'react-hook-form'
 import { api } from '.'
+import axios from 'axios'
 
 export const UsersService = {
   getUsers: async (setAllUsers: (v: IAllUsers[]) => void, setLoading: (v: boolean) => void) => {
@@ -61,12 +62,13 @@ export const UsersService = {
   ) => {
     try {
       setLoading(true)
-      const result = await api.post(
+      const result = await axios.post(
         'https://6433c7661c5ed06c9586812f.mockapi.io/api/v1/users',
         userData,
       )
       setUsers([...users, result.data])
       setLoading(false)
+      console.log('res', userData)
       reset()
     } catch (e) {
       if ((e as IError).statusCode && (e as IError).statusCode > 399) {
