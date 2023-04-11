@@ -22,8 +22,8 @@ declare interface IError {
   stack?: string
 }
 declare interface IFormData {
-  id: string
   name: string
   age: number
   about: string
+  id: string
 }
