@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import Table from './components/Table'
-import { usersService } from './services/users'
-import { HeaderContainer } from './style'
+
+import { Button, HeaderContainer } from './style'
+import { UsersService } from './services/users'
 
 function App() {
   const [allUsers, setAllUsers] = useState<IAllUsers[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const columns = [
     {
@@ -33,21 +35,46 @@ function App() {
       width: 200,
     },
     {
-      title: 'Action',
+      title: 'DEL',
       key: 'action',
       render: (text: any, record: IAllUsers) => (
-        <button onClick={() => usersService.deleteUser(record.id, allUsers, setAllUsers)}>
+        <Button
+          onClick={() => UsersService.deleteUser(record.id, allUsers, setAllUsers, setLoading)}
+        >
           Delete
-        </button>
+        </Button>
       ),
+      width: 100,
+    },
+    {
+      title: 'Edit',
+      key: 'action',
+      render: (text: any, record: IAllUsers) => (
+        <Button
+          onClick={() => UsersService.deleteUser(record.id, allUsers, setAllUsers, setLoading)}
+        >
+          Edit
+        </Button>
+      ),
+      width: 100,
     },
   ]
+
+  useEffect(() => {
+    UsersService.getUsers(setAllUsers, setLoading)
+  }, [])
 
   return (
     <div className={'App'}>
       <main>
         <HeaderContainer>
-          <Table allUsers={allUsers} setAllUsers={setAllUsers} columns={columns} />
+          <Table
+            allUsers={allUsers}
+            setAllUsers={setAllUsers}
+            columns={columns}
+            setLoading={setLoading}
+            loading={loading}
+          />
         </HeaderContainer>
       </main>
     </div>

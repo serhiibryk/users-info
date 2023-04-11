@@ -1,22 +1,33 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import Table from 'rc-table'
-import { usersService } from '../../services/users'
+import { useForm } from 'react-hook-form'
 import { TableWrapper } from './style'
+
+import { UsersService } from '../../services/users'
+import Form from '../Form'
 
 interface ITable {
   allUsers: IAllUsers[]
   setAllUsers: (v: IAllUsers[]) => void
-  columns: any
+  columns: IColumn[]
+  loading: boolean
+  setLoading: (v: boolean) => void
 }
 
-const TableComponent: FC<ITable> = ({ allUsers, setAllUsers, columns }) => {
-  useEffect(() => {
-    usersService.getUsers(setAllUsers)
-  }, [])
+const TableComponent: FC<ITable> = ({ allUsers, columns, setAllUsers, setLoading, loading }) => {
+  const { reset } = useForm<IFormData>()
+
+  const onSubmit = async (formData: IFormData) => {
+    UsersService.addUser(formData, allUsers, setAllUsers, setLoading, reset)
+  }
 
   return (
     <TableWrapper>
-      <Table columns={columns} data={allUsers} />
+      <div className='App'>
+        <Form onSubmit={onSubmit} loading={loading} />
+        <br />
+        <Table columns={columns} data={allUsers} />
+      </div>
     </TableWrapper>
   )
 }
