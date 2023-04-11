@@ -1,6 +1,6 @@
 declare interface IAllUsers {
   name: string
-  age: number
+  age: number | string
   about: string
   id: string
 }
@@ -13,7 +13,10 @@ declare interface IColumn {
   dataIndex?: string
   key: string
   width: number
-  render?: ((text: any, record: IAllUsers) => JSX.Element) | undefined
+  render?:
+    | ((text: any, record: IAllUsers) => JSX.Element)
+    | undefined
+    | ((text: string, record: IAllUsers) => string | JSX.Element)
 }
 declare interface IError {
   name: string
