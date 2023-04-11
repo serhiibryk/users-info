@@ -11,9 +11,29 @@ interface ITable {
   columns: IColumn[]
   loading: boolean
   setLoading: (v: boolean) => void
+  editRow: string | number | null
+  setEditRow: (v: string | number | null) => void
 }
 
-const TableComponent: FC<ITable> = ({ allUsers, columns, setAllUsers, setLoading, loading }) => {
+const TableComponent: FC<ITable> = ({
+  allUsers,
+  columns,
+  setAllUsers,
+  setLoading,
+  loading,
+  editRow,
+}) => {
+  const rowClassName = (record: IAllUsers) => (editRow === record.id ? 'editable-row' : '')
+
+  const tableProps = {
+    columns,
+    data: allUsers,
+    rowClassName,
+    // onRow: (record: IAllUsers) => ({
+    //   onClick: () => handleRowClick(record),
+    // }),
+  }
+
   return (
     <TableWrapper>
       <div className='App'>
@@ -24,7 +44,7 @@ const TableComponent: FC<ITable> = ({ allUsers, columns, setAllUsers, setLoading
           setLoading={setLoading}
         />
         <br />
-        <Table columns={columns} data={allUsers} />
+        <Table {...tableProps} />
       </div>
     </TableWrapper>
   )

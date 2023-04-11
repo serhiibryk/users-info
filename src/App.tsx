@@ -4,10 +4,28 @@ import Table from './components/Table'
 
 import { Button, HeaderContainer } from './style'
 import { UsersService } from './services/users'
+import { useForm } from 'react-hook-form'
 
-function App() {
+const App = () => {
   const [allUsers, setAllUsers] = useState<IAllUsers[]>([])
+  const [editRow, setEditRow] = useState<string | number | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const { register, watch, reset } = useForm<IFormData>()
+
+  const name = watch('name')
+  const age = watch('age')
+  const about = watch('about')
+
+  const handleSave = (data: IAllUsers) => {
+    const newData = { ...data, name: name, age: age, about: about }
+
+    UsersService.editUser(newData, setEditRow, allUsers, setAllUsers, setLoading)
+    reset()
+  }
+
+  const handleRowClick = (record: IAllUsers) => {
+    setEditRow(record.id)
+  }
 
   const columns = [
     {
@@ -17,25 +35,31 @@ function App() {
       width: 100,
     },
     {
-      title: 'Name',
+      title: 'User name',
       dataIndex: 'name',
       key: 'name',
+      render: (text: string, record: IAllUsers) =>
+        editRow === record.id ? <input {...register('name')} defaultValue={record.name} /> : text,
       width: 300,
     },
     {
-      title: 'Age',
+      title: 'User age',
       dataIndex: 'age',
       key: 'age',
+      render: (text: string, record: IAllUsers) =>
+        editRow === record.id ? <input {...register('age')} defaultValue={record.age} /> : text,
       width: 200,
     },
     {
       title: 'About user',
       dataIndex: 'about',
       key: 'about',
+      render: (text: string, record: IAllUsers) =>
+        editRow === record.id ? <input {...register('about')} defaultValue={record.about} /> : text,
       width: 200,
     },
     {
-      title: 'DEL',
+      title: '',
       key: 'action',
       render: (text: any, record: IAllUsers) => (
         <Button
@@ -47,15 +71,14 @@ function App() {
       width: 100,
     },
     {
-      title: 'Edit',
+      title: '',
       key: 'action',
-      render: (text: any, record: IAllUsers) => (
-        <Button
-          onClick={() => UsersService.deleteUser(record.id, allUsers, setAllUsers, setLoading)}
-        >
-          Edit
-        </Button>
-      ),
+      render: (text: any, record: IAllUsers) =>
+        editRow === record.id ? (
+          <Button onClick={() => handleSave(record)}>Save</Button>
+        ) : (
+          <Button onClick={() => handleRowClick(record)}>Edit</Button>
+        ),
       width: 100,
     },
   ]
@@ -74,6 +97,8 @@ function App() {
             columns={columns}
             setLoading={setLoading}
             loading={loading}
+            editRow={editRow}
+            setEditRow={setEditRow}
           />
         </HeaderContainer>
       </main>

@@ -41,8 +41,8 @@ export const UsersService = {
   ) => {
     try {
       setLoading(true)
-      await api.delete(`users/${id}/`).then((response) => {
-        console.log(response)
+      await api.delete(`users/${id}/`).then((res) => {
+        console.log(res)
         const newUsers = users.filter((user) => user.id !== id)
         setUsers(newUsers)
         setLoading(false)
@@ -68,8 +68,40 @@ export const UsersService = {
       )
       setUsers([...users, result.data])
       setLoading(false)
-      console.log('res', userData)
       reset()
+    } catch (e) {
+      if ((e as IError).statusCode && (e as IError).statusCode > 399) {
+        console.log('Error in addUser', e)
+      }
+    }
+  },
+  editUser: async (
+    data: IAllUsers,
+    setEditRow: (v: string | number | null) => void,
+    users: IAllUsers[],
+    setUsers: (v: IAllUsers[]) => void,
+    setLoading: (v: boolean) => void,
+  ) => {
+    try {
+      setLoading(true)
+      axios
+        .put(`https://6433c7661c5ed06c9586812f.mockapi.io/api/v1/users/${data.id}`, data)
+        .then((res) => {
+          const currId = res.data.id
+          const currUser = users.find((user) => user.id === currId)
+
+          const final = users.map((user) => {
+            if (user === currUser) {
+              return res.data
+            }
+            return user
+          })
+
+          setUsers(final)
+          setEditRow(null)
+        })
+
+      setLoading(false)
     } catch (e) {
       if ((e as IError).statusCode && (e as IError).statusCode > 399) {
         console.log('Error in addUser', e)
