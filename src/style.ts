@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const MainContainer = styled.div`
   & .rc-table {
+    min-height: calc(100vh - 10rem);
     max-height: calc(100vh - 10rem);
     overflow: auto;
   }
