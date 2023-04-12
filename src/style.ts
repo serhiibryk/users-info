@@ -1,12 +1,46 @@
 import styled from 'styled-components'
 
-export const HeaderContainer = styled.div``
+export const MainContainer = styled.div`
+  & .rc-table {
+    max-height: calc(100vh - 10rem);
+    overflow: auto;
+  }
+`
 
 export const Button = styled.button`
-  background: black;
-  color: grey;
+  background: #f95959;
+  height: 26px;
+  width: max-content;
+  padding: 0 10px 0 10px;
+  color: white;
   border: none;
-  height: 20px;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
+
+  &.delButton {
+    border: 1px solid #f95959;
+
+    :hover {
+      border: 1px solid #97124b;
+      background-color: #dc4444;
+    }
+  }
+
+  &.saveButton {
+    background-color: #455d7a;
+    border: 1px solid #233142;
+  }
+
+  &.editButton {
+    background-color: #e3e3e3;
+    color: #455d7a;
+    border: 1px solid #455d7a;
+
+    :hover {
+      border: 1px solid #233142;
+      background-color: #455d7a;
+      color: white;
+    }
+  }
 `

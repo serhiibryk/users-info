@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ButtonAdd, ButtonWrapper } from './style'
+import { AddTitle, ButtonAdd, ButtonWrapper, InputsContainer } from './style'
 import { useForm } from 'react-hook-form'
 import Input from '../Input'
 
@@ -8,11 +8,11 @@ import { UsersService } from '../../services/users'
 interface IForm {
   allUsers: IAllUsers[]
   setAllUsers: (v: IAllUsers[]) => void
-  loading: boolean
+  loading?: boolean
   setLoading: (v: boolean) => void
 }
 
-const Form: FC<IForm> = ({ loading, allUsers, setAllUsers, setLoading }) => {
+const Form: FC<IForm> = ({ allUsers, setAllUsers, setLoading }) => {
   const { register, handleSubmit, reset } = useForm<IFormData>()
 
   const onSubmit = async (formData: IFormData) => {
@@ -20,11 +20,34 @@ const Form: FC<IForm> = ({ loading, allUsers, setAllUsers, setLoading }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Input type={'text'} name={'name'} label={'name:'} action={register('name')} />
-      <Input type={'number'} name={'age'} label={'age:'} action={register('age')} />
-      <Input type={'text'} name={'about'} label={'about:'} action={register('about')} />
-      <ButtonWrapper>{!loading && <ButtonAdd type='submit'>Add User</ButtonAdd>}</ButtonWrapper>
+    <form className={'form'} onSubmit={handleSubmit(onSubmit)}>
+      <AddTitle>Add field</AddTitle>
+      <InputsContainer>
+        <Input
+          type={'text'}
+          name={'name'}
+          label={'Name:'}
+          action={register('name')}
+          placeholder={'name'}
+        />
+        <Input
+          type={'number'}
+          name={'age'}
+          label={'Age:'}
+          action={register('age')}
+          placeholder={'age'}
+        />
+        <Input
+          type={'text'}
+          name={'about'}
+          label={'About:'}
+          action={register('about')}
+          placeholder={'about'}
+        />
+      </InputsContainer>
+      <ButtonWrapper>
+        <ButtonAdd type='submit'>Add User</ButtonAdd>
+      </ButtonWrapper>
     </form>
   )
 }
