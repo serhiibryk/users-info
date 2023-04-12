@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import Table from './components/Table'
 
-import { Button, HeaderContainer } from './style'
+import { Button, MainContainer } from './style'
 import { UsersService } from './services/users'
 import { useForm } from 'react-hook-form'
+import Input from './components/Input'
 
 const App = () => {
   const [allUsers, setAllUsers] = useState<IAllUsers[]>([])
@@ -39,15 +40,23 @@ const App = () => {
       dataIndex: 'name',
       key: 'name',
       render: (text: string, record: IAllUsers) =>
-        editRow === record.id ? <input {...register('name')} defaultValue={record.name} /> : text,
-      width: 300,
+        editRow === record.id ? (
+          <Input type={'text'} name={'name'} action={register('name')} defaultValue={record.name} />
+        ) : (
+          text
+        ),
+      width: 400,
     },
     {
       title: 'User age',
       dataIndex: 'age',
       key: 'age',
       render: (text: string, record: IAllUsers) =>
-        editRow === record.id ? <input {...register('age')} defaultValue={record.age} /> : text,
+        editRow === record.id ? (
+          <Input type={'text'} name={'name'} action={register('age')} defaultValue={record.age} />
+        ) : (
+          text
+        ),
       width: 200,
     },
     {
@@ -55,29 +64,43 @@ const App = () => {
       dataIndex: 'about',
       key: 'about',
       render: (text: string, record: IAllUsers) =>
-        editRow === record.id ? <input {...register('about')} defaultValue={record.about} /> : text,
-      width: 200,
+        editRow === record.id ? (
+          <Input
+            type={'text'}
+            name={'name'}
+            action={register('about')}
+            defaultValue={record.about}
+          />
+        ) : (
+          text
+        ),
+      width: 400,
     },
     {
       title: '',
       key: 'action',
       render: (text: any, record: IAllUsers) => (
         <Button
+          className={'delButton'}
           onClick={() => UsersService.deleteUser(record.id, allUsers, setAllUsers, setLoading)}
         >
           Delete
         </Button>
       ),
-      width: 100,
+      width: 50,
     },
     {
       title: '',
       key: 'action',
       render: (text: any, record: IAllUsers) =>
         editRow === record.id ? (
-          <Button onClick={() => handleSave(record)}>Save</Button>
+          <Button className={'saveButton'} onClick={() => handleSave(record)}>
+            Save
+          </Button>
         ) : (
-          <Button onClick={() => handleRowClick(record)}>Edit</Button>
+          <Button className={'editButton'} onClick={() => handleRowClick(record)}>
+            Edit
+          </Button>
         ),
       width: 100,
     },
@@ -90,7 +113,7 @@ const App = () => {
   return (
     <div className={'App'}>
       <main>
-        <HeaderContainer>
+        <MainContainer>
           <Table
             allUsers={allUsers}
             setAllUsers={setAllUsers}
@@ -100,7 +123,7 @@ const App = () => {
             editRow={editRow}
             setEditRow={setEditRow}
           />
-        </HeaderContainer>
+        </MainContainer>
       </main>
     </div>
   )

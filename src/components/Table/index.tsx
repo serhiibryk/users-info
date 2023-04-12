@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import Table from 'rc-table'
 
-import { TableWrapper } from './style'
+import { FormWrapper, TableContainer, TableWrapper } from './style'
 
 import Form from '../Form'
 
@@ -35,18 +35,21 @@ const TableComponent: FC<ITable> = ({
   }
 
   return (
-    <TableWrapper>
-      <div className='App'>
-        <Form
-          allUsers={allUsers}
-          setAllUsers={setAllUsers}
-          loading={loading}
-          setLoading={setLoading}
-        />
-        <br />
-        <Table {...tableProps} />
+    <TableContainer>
+      <div>
+        <TableWrapper>
+          <Table {...tableProps} />
+        </TableWrapper>
+        <FormWrapper>
+          <Form
+            allUsers={allUsers}
+            setAllUsers={setAllUsers}
+            loading={loading}
+            setLoading={setLoading}
+          />
+        </FormWrapper>
       </div>
-    </TableWrapper>
+    </TableContainer>
   )
 }
 
