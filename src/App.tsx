@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import './App.css'
+import { useForm } from 'react-hook-form'
+
 import Table from './components/Table'
+import { UsersService } from './services/users'
+
+import Input from './components/Input'
 
 import { Button, MainContainer } from './style'
-import { UsersService } from './services/users'
-import { useForm } from 'react-hook-form'
-import Input from './components/Input'
+import './App.css'
 
 const App = () => {
   const [allUsers, setAllUsers] = useState<IAllUsers[]>([])
@@ -41,7 +43,12 @@ const App = () => {
       key: 'name',
       render: (text: string, record: IAllUsers) =>
         editRow === record.id ? (
-          <Input type={'text'} name={'name'} action={register('name')} defaultValue={record.name} />
+          <Input
+            type={'text'}
+            name={'name'}
+            action={register('name')}
+            // defaultValue={record.name}
+          />
         ) : (
           text
         ),
@@ -53,7 +60,12 @@ const App = () => {
       key: 'age',
       render: (text: string, record: IAllUsers) =>
         editRow === record.id ? (
-          <Input type={'text'} name={'name'} action={register('age')} defaultValue={record.age} />
+          <Input
+            type={'text'}
+            name={'name'}
+            action={register('age')}
+            // defaultValue={record.age}
+          />
         ) : (
           text
         ),
@@ -69,7 +81,7 @@ const App = () => {
             type={'text'}
             name={'name'}
             action={register('about')}
-            defaultValue={record.about}
+            // defaultValue={record.about}
           />
         ) : (
           text
@@ -105,6 +117,15 @@ const App = () => {
       width: 100,
     },
   ]
+
+  // const dispatch = useDispatch()
+  // const pending = useSelector(getPendingSelector)
+  // const users = useSelector(getUsersSelector)
+  // const error = useSelector(getErrorSelector)
+
+  // useEffect(() => {
+  //   dispatch(fetchUserRequest())
+  // }, [])
 
   useEffect(() => {
     UsersService.getUsers(setAllUsers, setLoading)
